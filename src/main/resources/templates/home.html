@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>SecuredBuffer</title>
+  </head>
+  <body>
+    <div id="app">
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col">
+            <h1>SecuredBuffer <small class="text-muted" th:text="${channelUUID}" v-on:click="copyToClipboard"/></h1>
+          </div>
+          <div class="col-4">
+            <h1>Add message</h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Message</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="message in messages">
+                  <td v-on:click="copyToClipboard">{{ message.content }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <textarea class="form-control" id="messageTextarea" rows="6" v-model="messageToSend"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" v-on:click="sendMessage">Submit</button>
+            <button type="button" class="btn btn-danger" v-on:click="purgeMessages">Purge messages</button>
+          </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../home.js"></script>
+  </body>
+</html>
