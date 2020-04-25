@@ -2,11 +2,22 @@ var app = new Vue({
   el: '#app',
   data: {
     messages: [],
-    messageToSend: ''
+    messageToSend: '',
+    encryptionKey: '',
+    exportedKey: ''
   },
   mounted() {
     // Initial fetch
     this.fetchMessages();
+
+    // Populate a default encryption key
+    generateKey().then(function (encryptionKey) {
+      this.app.encryptionKey = encryptionKey;
+
+      exportKey(encryptionKey).then(function (exportedKey) {
+        this.app.exportedKey = JSON.stringify(exportedKey);
+      })
+    });
 
     // Regular fetch
     setInterval(() => {
@@ -18,7 +29,17 @@ var app = new Vue({
       console.log('Fetching messages');
       axios
         .get('../api/channels/' + channelUUID + '/messages')
-        .then(response => (this.messages = response.data))
+        .then(function (response) {
+          this.app.messages = response.data;
+
+          this.app.messages.forEach(function (message) {
+            console.log(message);
+            const unpackagedCipherText = unpackageCipherText(message);
+            decrypt(unpackagedCipherText.content, unpackagedCipherText.iv, this.app.encryptionKey).then(function (plainText) {
+              message.content = plainText;
+            });
+          });
+        })
     },
     copyToClipboard: function (event) {
       const valueToCopy = event.currentTarget.innerText;
@@ -31,10 +52,12 @@ var app = new Vue({
       document.body.removeChild(el);
     },
     sendMessage: function () {
-      axios.post('../api/channels/' + channelUUID +'/messages', {
-        content: this.messageToSend
-      }).then(function (response) {
-        this.app.messageToSend = ''
+      encrypt(this.messageToSend, this.encryptionKey).then(function (encrypt) {
+        let packagedCipher = packageCipherText(encrypt);
+
+        axios.post('../api/channels/' + channelUUID +'/messages', packagedCipher).then(function (response) {
+          this.app.messageToSend = ''
+        })
       })
     },
     purgeMessages: function () {

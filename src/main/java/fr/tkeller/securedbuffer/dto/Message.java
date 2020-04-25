@@ -16,4 +16,8 @@ public class Message {
 	@NonNull
 	@NotNull
 	private String content;
+
+	@NonNull
+	@NotNull
+	private String iv;
 }

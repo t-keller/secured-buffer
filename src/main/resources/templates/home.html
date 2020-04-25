@@ -44,11 +44,20 @@
             </div>
             <button type="submit" class="btn btn-primary" v-on:click="sendMessage">Submit</button>
             <button type="button" class="btn btn-danger" v-on:click="purgeMessages">Purge messages</button>
+
+            <h1>Configuration</h1>
+            <div class="form-group">
+              <label for="encryptionKey">Encryption key</label>
+              <textarea class="form-control" id="encryptionKey" rows="3" v-model="exportedKey"></textarea>
+            </div>
           </div>
+        </div>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../crypto.js"></script>
     <script src="../home.js"></script>
   </body>
 </html>
