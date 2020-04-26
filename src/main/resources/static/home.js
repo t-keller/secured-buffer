@@ -37,6 +37,8 @@ var app = new Vue({
             const unpackagedCipherText = unpackageCipherText(message);
             decrypt(unpackagedCipherText.content, unpackagedCipherText.iv, this.app.encryptionKey).then(function (plainText) {
               message.content = plainText;
+            }).catch(function (error) {
+              message.content = 'Unable to decrypt the message (' + error + ')';
             });
           });
         })
