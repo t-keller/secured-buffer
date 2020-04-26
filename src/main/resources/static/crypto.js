@@ -2,7 +2,7 @@ function generateKey() {
   return crypto.subtle.generateKey({
     "name": "AES-GCM",
     "length": 128
-  }, true, ['encrypt','decrypt']);
+  }, true, ["encrypt","decrypt"]);
 }
 
 function generateInitialVector() {
@@ -10,7 +10,7 @@ function generateInitialVector() {
 }
 
 function exportKey(key) {
-  return crypto.subtle.exportKey('jwk', key);
+  return crypto.subtle.exportKey("jwk", key);
 }
 
 async function encrypt(data, key) {
