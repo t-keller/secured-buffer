@@ -7,22 +7,23 @@ var app = new Vue({
     exportedKey: ""
   },
   mounted() {
-    // Initial fetch
-    this.fetchMessages();
-
     // Populate a default encryption key
     generateKey().then(function (encryptionKey) {
       this.app.encryptionKey = encryptionKey;
 
       exportKey(encryptionKey).then(function (exportedKey) {
         this.app.exportedKey = JSON.stringify(exportedKey);
-      })
-    });
+      });
 
-    // Regular fetch
-    setInterval(() => {
-      this.fetchMessages();
-    }, 5000);
+      // Initial fetch
+      this.app.fetchMessages();
+
+      // Regular fetch
+      setInterval(() => {
+        this.app.fetchMessages();
+      }, 5000);
+
+    });
   },
   methods: {
     fetchMessages: function () {
@@ -32,8 +33,8 @@ var app = new Vue({
         .then(function (response) {
           this.app.messages = response.data;
 
+          // Iterate over the messages to decrypt the content
           this.app.messages.forEach(function (message) {
-            console.log(message);
             const unpackagedCipherText = unpackageCipherText(message);
             decrypt(unpackagedCipherText.content, unpackagedCipherText.iv, this.app.encryptionKey).then(function (plainText) {
               message.content = plainText;
