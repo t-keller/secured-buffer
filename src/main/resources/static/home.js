@@ -36,6 +36,9 @@ var app = new Vue({
           // Iterate over the messages to decrypt the content
           this.app.messages.forEach(function (message) {
             const unpackagedCipherText = unpackageCipherText(message);
+
+            this.app.acquireEncryptionKey();
+
             decrypt(unpackagedCipherText.content, unpackagedCipherText.iv, this.app.encryptionKey).then(function (plainText) {
               message.content = plainText;
             }).catch(function (error) {
@@ -43,6 +46,10 @@ var app = new Vue({
             });
           });
         })
+    },
+    acquireEncryptionKey: async function () {
+      const exportedKeyObj = JSON.parse(this.exportedKey);
+      this.encryptionKey = await importKey(exportedKeyObj);
     },
     copyToClipboard: function (event) {
       const valueToCopy = event.currentTarget.innerText;

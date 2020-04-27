@@ -13,6 +13,13 @@ function exportKey(key) {
   return crypto.subtle.exportKey("jwk", key);
 }
 
+function importKey(key) {
+  return window.crypto.subtle.importKey("jwk", key, {
+    name: "AES-GCM",
+    length: 128
+  }, true, ["encrypt","decrypt"]);
+}
+
 async function encrypt(data, key) {
   // String to Uint8Array
   let encodedData = new TextEncoder().encode(data);
