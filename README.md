@@ -19,6 +19,17 @@ Here are the encryption parameters:
 
 The app uses the [SubtleCrypto](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto) APIs; it will only work in secured context ([more details here](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts)) so TLS is mandatory.
 
+## Stack
+
+Server-side:
+* [Spring Boot](https://spring.io/projects/spring-boot) 2.2.6
+* [Thymeleaf](https://www.thymeleaf.org/)
+* [Lombok](https://projectlombok.org/)
+
+Client-side:
+* [Vue.js](https://vuejs.org)
+* [Axios](https://github.com/axios/axios)
+
 ## Build
 
 Maven is required to build and package the app:
