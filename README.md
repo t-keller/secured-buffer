@@ -11,11 +11,13 @@ A symmetrical encryption is implemented on the client side in order to provide :
 2. Authenticity
 3. Integrity
 
-The encryption method is AES [GCM](https://en.wikipedia.org/wiki/Galois/Counter_Mode), the key size is 128 bits and the initial vector is 12 bits (regenerated for each call)
+Here are the encryption parameters:
+* AES [GCM](https://en.wikipedia.org/wiki/Galois/Counter_Mode)
+* Key-size: 128 bits
+* Initial vector: 12 bits (regenerated for each call)
+* Key export format: JWK format (see [RFC 7517](https://tools.ietf.org/html/rfc7517))
 
-The app can generate the key and export it in JWK format (see [RFC 7517](https://tools.ietf.org/html/rfc7517))
-
-If possible, it's recommended to expose the app over TLS (or even better [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication))
+The app uses the [SubtleCrypto](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto) APIs; it will only work in secured context ([more details here](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts)) so TLS is mandatory.
 
 ## Build
 
